@@ -13,7 +13,7 @@ includelib includes\msvcrt.lib
 ;r8 contains boolean vars
 .data
 format	db		'%f', 0dh, 0ah, 0 	;Format output string
-zero	db 		0					;It's not a variable, it's just a zero, it MUST be here
+zero	db 		0					;It's not a variable, it's just a zero, it MUST be here!
 buf 	db 		128 dup(?)			;Input string buffer
 input 	dq 		?					;Input handle
 output 	dq 		?					;Output handle
@@ -134,7 +134,7 @@ nnext1:
 	
 nend:
 	fmul st, st(1)				;Multiply by 10
-	dec ecx 
+	dec ecx
 	jnz nend
 								;Put the number into the stack
 	sub rsp, 8
@@ -199,9 +199,11 @@ mfunc1:
 	cmp al, 'z'
 	jle mfunc1
 fcmp:
+	cmp eax, 'ip'	;pi
+	je mpi
+	shr rax, 8
 	finit
 	fld qword ptr [rsp]			;Load first argument
-	shr rax, 8
 	cmp eax, 'trqs'	;sqrt
 	je msqrt
 	cmp eax, 'nis'	;sin
@@ -214,8 +216,9 @@ fcmp:
 	je matan
 	cmp eax, 'wop'	;pow
 	je mpow
-	;push 1
-	;call ExitProcess
+mpi:
+	fldpi
+	jmp mfret
 msqrt:
 	fsqrt
 	jmp mfret
@@ -227,8 +230,10 @@ mcos:
 	jmp mfret
 mtan:
 	fptan
+	fxch
 	jmp mfret
 matan:
+	fld1
 	fpatan
 	jmp mfret
 mpow:
