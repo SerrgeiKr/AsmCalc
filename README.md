@@ -1,2 +1,2 @@
 # AsmCalc
-Simple algebraic calculator writen in assembly language
+Simple algebraic calculator written in assembly language
