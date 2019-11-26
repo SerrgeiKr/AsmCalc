@@ -16,18 +16,14 @@ format	db		'%f', 0dh, 0ah, 0 	;Format output string
 zero	db 		0					;It's not a variable, it's just a zero, it MUST be here!
 buf 	db 		128 dup(?)			;Input string buffer
 input 	dq 		?					;Input handle
-output 	dq 		?					;Output handle
 chread 	dq 		?					;Number of characters read
 num 	dq 		?					;Just a variable
 .code
 Main proc 
-	;Get hanles
+	;Get handles
     mov rcx, STD_INPUT_HANDLE
     call GetStdHandle
     mov input, rax
-    mov rcx, STD_OUTPUT_HANDLE
-    call GetStdHandle
-    mov output, rax
 minput:
 	;Input
     mov rcx, input
@@ -192,7 +188,7 @@ mfunc:
 mfunc1:
 	;Read function name into rax
 	shl rax, 8
-	dec rdx 
+	dec rdx
 	mov al, [rdx]
 	cmp al, 'a'
 	jl fcmp
